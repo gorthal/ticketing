@@ -3,8 +3,8 @@
         "nom": "Système de Ticketing",
         "technologies": {
             "backend": [
-                "Laravel 11",
-                "Jetstream",
+                "Laravel 12",
+                "FilamentPHP",
                 "Livewire",
                 "PHP"
             ],
@@ -140,9 +140,7 @@
             "titre": "Initialiser le projet Laravel + Livewire",
             "taches": [
                 "Créer projet Laravel",
-                "Installer et configurer Livewire",
-                "Configurer authentification avec Jetstream",
-                "Mettre en place TailwindCSS",
+                "Installer et configurer FilamentPHP",
                 "Configurer environnement (.env)"
             ]
         },
