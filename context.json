@@ -1,0 +1,372 @@
+{
+    "projet": {
+        "nom": "Système de Ticketing",
+        "technologies": {
+            "backend": [
+                "Laravel 11",
+                "Jetstream",
+                "Livewire",
+                "PHP"
+            ],
+            "frontend": [
+                "TailwindCSS",
+                "AlpineJS"
+            ]
+        },
+        "description": "Application de gestion de tickets créés à partir d'emails entrants avec workflows automatisés et gestion des droits utilisateurs"
+    },
+    "fonctionnalites": {
+        "creation_tickets": {
+            "source": "Emails via POP3/IMAP",
+            "extraction": [
+                "Nom client",
+                "Email client",
+                "Sujet",
+                "Contenu"
+            ],
+            "pieces_jointes": {
+                "formats_autorises": [
+                    "Images standards",
+                    "PDF",
+                    "Word",
+                    "Excel",
+                    "PowerPoint",
+                    "ZIP"
+                ],
+                "affichage": "Images affichées inline, autres fichiers téléchargeables"
+            },
+            "correspondance": "Réponses clients associées automatiquement au ticket existant"
+        },
+        "gestion_tickets": {
+            "statuts": [
+                "Ouvert",
+                "En attente",
+                "Résolu",
+                "Fermé"
+            ],
+            "interactions": {
+                "reponses": "Envoi direct depuis l'interface",
+                "commentaires_internes": "Visibles uniquement par les agents",
+                "pieces_jointes": "Possibilité d'ajout aux réponses et commentaires",
+                "transfert": "Transfert de ticket ou réponse à une autre adresse email"
+            },
+            "filtres": [
+                "Date",
+                "Texte",
+                "Client",
+                "Statut",
+                "Label"
+            ]
+        },
+        "workflows": {
+            "automatisation": {
+                "classification": "Basée sur des mots-clés dans le sujet ou corps de l'email",
+                "alertes": "Notification par email possible à une ou plusieurs adresses",
+                "labels": "Association automatique selon workflow appliqué"
+            },
+            "visibilite": "Un agent voit uniquement les tickets avec labels de workflow assignés"
+        },
+        "utilisateurs": {
+            "roles": {
+                "administrateur": {
+                    "acces": "Total à tous les tickets et fonctionnalités",
+                    "permissions": [
+                        "Gestion des workflows",
+                        "Gestion des utilisateurs",
+                        "Configuration système"
+                    ]
+                },
+                "agent": {
+                    "acces": "Restreint aux tickets selon labels de workflow assignés",
+                    "activation": "Définition du mot de passe à la première connexion"
+                },
+                "client": {
+                    "acces": "Uniquement à ses propres tickets ou à ceux de sa société",
+                    "inscription": "Possible seulement si un ticket existe déjà avec son email",
+                    "verification": "Email obligatoire avant activation du compte"
+                }
+            }
+        },
+        "archivage": {
+            "criteres": "Tickets résolus après 3 jours",
+            "recherche": "Filtres par date et texte"
+        }
+    },
+    "securite": {
+        "authentification": {
+            "mot_de_passe": "Minimum 12 caractères, majuscules, minuscules, chiffres et caractères spéciaux",
+            "2fa": "Optionnelle pour administrateurs et agents",
+            "verification_email": "Obligatoire pour nouvelles inscriptions clients",
+            "tentatives": "Restriction après plusieurs échecs",
+            "session": "Expiration après période d'inactivité"
+        },
+        "protection_emails": {
+            "filtrage": "Anti-spam et anti-phishing",
+            "contenu": "Nettoyage pour prévenir XSS",
+            "pieces_jointes": "Vérification stricte type MIME et extension"
+        },
+        "donnees": {
+            "chiffrement": "Bcrypt pour mots de passe",
+            "permissions": "Accès restrictif selon rôle",
+            "journalisation": "Actions sensibles enregistrées"
+        },
+        "communications": {
+            "https": "Forcé pour toutes connexions",
+            "headers": [
+                "CSP",
+                "X-Frame-Options",
+                "HSTS",
+                "X-Content-Type-Options"
+            ],
+            "protection": [
+                "CSRF",
+                "XSS"
+            ]
+        }
+    },
+    "modules_statistiques": {
+        "requis": true,
+        "metriques_potentielles": [
+            "Tickets traités par période",
+            "Temps moyen de résolution",
+            "Performance par agent",
+            "Distribution par statut",
+            "Satisfaction client"
+        ]
+    },
+    "etapes_projet": [
+        {
+            "numero": 1,
+            "titre": "Initialiser le projet Laravel + Livewire",
+            "taches": [
+                "Créer projet Laravel",
+                "Installer et configurer Livewire",
+                "Configurer authentification avec Jetstream",
+                "Mettre en place TailwindCSS",
+                "Configurer environnement (.env)"
+            ]
+        },
+        {
+            "numero": 2,
+            "titre": "Implémentation des rôles et permissions",
+            "taches": [
+                "Créer rôles Admin, Agent, Client",
+                "Définir permissions des rôles",
+                "Implémenter middleware d'accès selon rôle"
+            ]
+        },
+        {
+            "numero": 3,
+            "titre": "Gestion des comptes clients",
+            "taches": [
+                "Permettre création compte client conditionnel à existence ticket",
+                "Implémenter vérification email obligatoire"
+            ]
+        },
+        {
+            "numero": 4,
+            "titre": "Gestion des comptes agents",
+            "taches": [
+                "Permettre création des comptes agents par admin",
+                "Implémenter choix mot de passe à première connexion"
+            ]
+        },
+        {
+            "numero": 5,
+            "titre": "Intégration POP3/IMAP pour la récupération des emails",
+            "taches": [
+                "Créer script lecture emails entrants",
+                "Extraire informations expéditeur",
+                "Vérifier/créer client automatiquement",
+                "Associer réponses aux tickets existants"
+            ]
+        },
+        {
+            "numero": 6,
+            "titre": "Création automatique des tickets depuis les emails",
+            "taches": [
+                "Stocker contenu email dans ticket",
+                "Gérer pièces jointes",
+                "Afficher images inline",
+                "Vérifier types MIME et extensions"
+            ]
+        },
+        {
+            "numero": 7,
+            "titre": "Interface de gestion des tickets pour les agents",
+            "taches": [
+                "Afficher liste tickets avec filtres",
+                "Ajouter bouton d'affectation de statut",
+                "Implémenter vue détaillée avec historique"
+            ]
+        },
+        {
+            "numero": 8,
+            "titre": "Répondre à un ticket",
+            "taches": [
+                "Ajouter champ de réponse dans vue ticket",
+                "Envoyer réponse au client par email",
+                "Permettre ajout pièces jointes à la réponse"
+            ]
+        },
+        {
+            "numero": 9,
+            "titre": "Ajouter des commentaires internes",
+            "taches": [
+                "Ajouter champ pour commentaires agents",
+                "Restreindre visibilité aux clients"
+            ]
+        },
+        {
+            "numero": 10,
+            "titre": "Transfert d'un ticket à une autre adresse email",
+            "taches": [
+                "Implémenter fonctionnalité de transfert",
+                "Enregistrer transfert dans historique"
+            ]
+        },
+        {
+            "numero": 11,
+            "titre": "Implémentation des Workflows",
+            "taches": [
+                "Permettre création workflows basés sur mots-clés",
+                "Associer labels aux tickets selon règles",
+                "Configurer alertes email selon workflows"
+            ]
+        },
+        {
+            "numero": 12,
+            "titre": "Assignation automatique des tickets",
+            "taches": [
+                "Assigner tickets aux agents selon labels"
+            ]
+        },
+        {
+            "numero": 13,
+            "titre": "Espace client pour consulter ses tickets",
+            "taches": [
+                "Afficher liste tickets du client",
+                "Permettre consultation détails",
+                "Permettre réponse via interface"
+            ]
+        },
+        {
+            "numero": 14,
+            "titre": "Archivage automatique des tickets",
+            "taches": [
+                "Archiver tickets résolus après 3 jours",
+                "Implémenter recherche dans archives"
+            ]
+        },
+        {
+            "numero": 15,
+            "titre": "Sécurisation de l'application",
+            "taches": [
+                "Forcer HTTPS",
+                "Protéger contre CSRF, XSS et injections SQL",
+                "Restreindre tentatives connexion",
+                "Chiffrer mots de passe avec bcrypt"
+            ]
+        }
+    ],
+    "structure_base_donnees": {
+        "tables_principales": [
+            {
+                "nom": "users",
+                "description": "Stockage des utilisateurs (admin, agents, clients)",
+                "champs_cles": [
+                    "id",
+                    "name",
+                    "email",
+                    "password",
+                    "role_id",
+                    "company_id"
+                ]
+            },
+            {
+                "nom": "roles",
+                "description": "Définition des rôles",
+                "champs_cles": [
+                    "id",
+                    "name",
+                    "permissions"
+                ]
+            },
+            {
+                "nom": "tickets",
+                "description": "Tickets créés depuis les emails",
+                "champs_cles": [
+                    "id",
+                    "subject",
+                    "content",
+                    "status",
+                    "client_id",
+                    "assigned_agent_id",
+                    "created_at"
+                ]
+            },
+            {
+                "nom": "ticket_responses",
+                "description": "Réponses aux tickets",
+                "champs_cles": [
+                    "id",
+                    "ticket_id",
+                    "content",
+                    "user_id",
+                    "is_internal",
+                    "created_at"
+                ]
+            },
+            {
+                "nom": "attachments",
+                "description": "Pièces jointes des tickets et réponses",
+                "champs_cles": [
+                    "id",
+                    "ticket_id",
+                    "response_id",
+                    "file_path",
+                    "file_name",
+                    "file_type",
+                    "file_size"
+                ]
+            },
+            {
+                "nom": "workflows",
+                "description": "Règles de classification automatique",
+                "champs_cles": [
+                    "id",
+                    "name",
+                    "keyword",
+                    "label_id",
+                    "notification_emails"
+                ]
+            },
+            {
+                "nom": "labels",
+                "description": "Labels assignés aux tickets",
+                "champs_cles": [
+                    "id",
+                    "name",
+                    "color"
+                ]
+            },
+            {
+                "nom": "agent_label",
+                "description": "Relation entre agents et labels",
+                "champs_cles": [
+                    "agent_id",
+                    "label_id"
+                ]
+            },
+            {
+                "nom": "companies",
+                "description": "Sociétés clientes",
+                "champs_cles": [
+                    "id",
+                    "name",
+                    "email_domain"
+                ]
+            }
+        ]
+    }
+}
