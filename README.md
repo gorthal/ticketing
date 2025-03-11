@@ -1,66 +1,95 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Cahier des Charges - Outil de Ticketing en Laravel + Livewire
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# 1. Présentation du projet
 
-## About Laravel
+L'outil de ticketing est une application développée en Laravel et Livewire permettant de gérer les demandes clients envoyées par email. L'application lit une boîte mail (POP3/IMAP) et convertit automatiquement les emails entrants en tickets, avec gestion des statuts, des réponses et des workflows.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 2. Fonctionnalités principales
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 2.1 Création des tickets
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Lecture automatique des emails d'une boîte mail POP3/IMAP.
+- Création d'un ticket à partir de chaque nouvel email reçu.
+- Extraction automatique du nom et de l'adresse email du client.
+- Gestion des pièces jointes :
+    - Images affichées en ligne et téléchargeables séparément.
+    - Types de fichiers autorisés : Images standards, PDF, Word, Excel, PowerPoint, ZIP.
+- Les réponses des clients aux emails sont ajoutées automatiquement au ticket correspondant.
 
-## Learning Laravel
+### 2.2 Gestion des tickets
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Affectation d'un **statut** au ticket, inspiré de Freshdesk :
+    - "Ouvert"
+    - "En attente"
+    - "Résolu"
+    - "Fermé"
+- Réponse directe aux clients depuis l’interface, avec historique des échanges.
+- Possibilité d’ajouter des **commentaires internes** visibles uniquement par les agents.
+- Ajout de **pièces jointes** aux réponses et aux commentaires.
+- Transfert d’un ticket ou d’une réponse à une autre adresse email.
+- Filtres et recherche simple avec tri par date et texte.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 2.3 Workflows automatisés
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Un **administrateur** peut configurer des workflows pour :
+    - Classer automatiquement les tickets en fonction de **mots-clés** présents dans le sujet ou le corps de l’email.
+    - Alerter par email une ou plusieurs adresses spécifiques lors de la création d'un ticket.
+    - Attribuer un **label** au ticket basé sur le workflow appliqué.
+- Un agent voit uniquement les tickets associés aux labels de workflow qui lui sont attribués.
 
-## Laravel Sponsors
+### 2.4 Gestion des utilisateurs et des accès
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **Administrateur** : Accès total à tous les tickets et fonctionnalités.
+- **Agent** : Accès restreint aux tickets en fonction des labels de workflow qui lui sont affectés.
+- **Client** : Accès uniquement à ses propres tickets ou aux tickets de sa société (si définie en base de données et liée à son compte).
+- Un **client** peut créer son compte s’il a déjà un ticket existant dans la base avec son email.
+- Un **agent** doit définir son mot de passe à sa première connexion.
 
-### Premium Partners
+### 2.5 Archivage des tickets
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+- Archivage automatique des **tickets résolus** après **3 jours**.
+- Moteur de recherche simple avec filtres par date et texte.
 
-## Contributing
+## 3. Sécurité
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3.1 Authentification et accès
 
-## Code of Conduct
+- Mots de passe complexes (minimum 12 caractères, majuscules, minuscules, chiffres et caractères spéciaux).
+- Authentification à deux facteurs (optionnelle) pour les administrateurs et agents.
+- Vérification d’email pour les nouvelles inscriptions clients.
+- Restriction des tentatives de connexion (blocage après plusieurs échecs).
+- Expiration automatique des sessions après une période d’inactivité.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 3.2 Sécurité des emails entrants
 
-## Security Vulnerabilities
+- Filtrage des emails suspects pour éviter le spam et le phishing.
+- Nettoyage du contenu des emails pour prévenir les attaques XSS.
+- Vérification stricte des types de fichiers joints (vérification du type MIME et de l’extension réelle).
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 3.3 Protection des données
 
-## License
+- Chiffrement des mots de passe avec `bcrypt`.
+- Permissions strictes : les agents ne voient que les tickets autorisés.
+- Journalisation des actions sensibles (connexions, modifications de tickets, etc.).
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 3.4 Sécurité des communications
+
+- Forçage HTTPS pour toutes les connexions.
+- Headers de sécurité : CSP, X-Frame-Options, HSTS, X-Content-Type-Options.
+- Protection contre les attaques CSRF et XSS avec les middlewares Laravel.
+
+### 3.5 Sécurité des workflows et notifications
+
+- Anti-spam sur les alertes email pour éviter un trop grand nombre de notifications.
+- Validation stricte des règles de workflow pour éviter des classements erronés.
+
+## 4. Points à approfondir
+
+- Faut-il ajouter une gestion des SLA (accords de niveau de service) pour définir des temps de réponse maximaux ? non
+- Souhaite-t-on intégrer un module de statistiques sur les tickets traités, temps de résolution moyen, etc. ? oui
+
+## 5. Informations techniques
+
+Utiliser Laravel 11 avec Jetstream pour renforcer la sécurité 
+Livewire pour toutes les interactions de l’UI afin d’avoir un comportement de type “Single Page Application”
+Utiliser TailwindCss pour dessiner les interfaces et si besoin Javascript et/ou AlpineJS pour rendre dynamique les affichages
