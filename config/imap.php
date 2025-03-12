@@ -44,7 +44,7 @@ return [
     */
 
     'options' => [
-        'fetch' => \Webklex\PHPIMAP\Enums\FetchType::FT_UID,
+        'fetch' => IMAP::FT_UID,
         'fetch_body' => true,
         'fetch_attachment' => true,
         'fetch_flags' => true,
