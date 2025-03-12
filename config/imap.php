@@ -1,5 +1,7 @@
 <?php
 
+use Webklex\PHPIMAP\IMAP;
+
 return [
 
     /*
